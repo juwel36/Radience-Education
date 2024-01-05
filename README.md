@@ -35,7 +35,7 @@ Admins have the capability to add and manage various elements on the website, en
 
 - **JWT Implementation for User Privacy:**
  Implement JSON Web Tokens (JWT) during the login process, ensuring secure authentication for both email/password and social logins.
-Prioritize user privacy by securely storing and managing the authentication tokens.
+Prioritize users privacy by securely storing and managing the authentication tokens.
 
 
  
