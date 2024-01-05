@@ -3,16 +3,26 @@ import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
+import useAxoisPublic from "../Hooks/useAxiosPublic";
 
 
 const GoogleLoginbtn = () => {
   const { googleAuth } = useContext(AuthContext);
-
+  const axiosPublic=useAxoisPublic()
 const navigate=useNavigate()
 
   const handlegoogleLogin = () => {
     googleAuth()
     .then(res=> {
+      const userInfo={
+        email: res.user?.email,
+        name: res.user?.displayName,
+        }
+        axiosPublic.post('/users',userInfo)
+        .then(res=>{
+          console.log(res);
+        })
+
 
       toast.success('Log in succesfully', {
         duration: 2000,

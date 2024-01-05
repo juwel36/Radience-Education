@@ -5,6 +5,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { Link, useLocation } from "react-router-dom";
+import useAdmin from "../Hooks/useAdmin";
 
 
 const Navbar = () => {
@@ -27,19 +28,31 @@ const Navbar = () => {
   };
 
 
-  const shouldShowAchievements = !["/login", "/regestraion","/aboutUs"].includes(location.pathname);
+
+
+  const [isAdmin]=useAdmin()
 
 const Navbar= <>
  
+
             <li><Link to="/"><button className=""> Home</button></Link></li>
-            <li><ScrollLink  to="achievements" smooth={true} style={{ display: shouldShowAchievements ? 'block' : 'none' }}  >Achievements</ScrollLink></li>
-            <li><ScrollLink  to="about" smooth={true} style={{ display: shouldShowAchievements ? 'block' : 'none' }}  >About Us</ScrollLink></li>
+            <li> <Link to='/aboutUs'> About Us </Link> </li>
+            <li> <Link to='/mocktest'> Mock Test </Link>  </li>
+            <li> <Link to='/result'> Result </Link>  </li>
+            <li> <Link to='/blog'> Blog </Link>  </li>
             <li>
               {user ? <button onClick={handleLogout} className="">Log Out</button> :
-                <Link to="login"><button className="">Log In</button></Link>
+                <Link to="/login"><button className="">Log In</button></Link>
               }
             </li>
-         
+         <li>
+         {
+  user && isAdmin &&   <Link to='/Dashboard/allusers'>  
+  <button className="border p-1 rounded-lg px-4">Deshboard</button>
+ </Link>  
+}
+         </li>
+           
 
 
 </>
@@ -60,7 +73,7 @@ const Navbar= <>
       </div> 
       <div className="flex-1 px-2 mx-2 font-semibold"> <img className="w-14 mr-3 text-white" src={img} alt="" /> Radiance Education   </div>
       <div className="flex-none hidden lg:block">
-        <ul className="menu menu-horizontal">
+        <ul className="menu menu-horizontal flex items-center">
         {Navbar}
         </ul>
       </div>
@@ -70,7 +83,7 @@ const Navbar= <>
   </div> 
   <div className="drawer-side z-10">
     <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label> 
-    <ul className="menu p-4 w-80 min-h-full bg-red-600 text-white">
+    <ul className="menu p-4 w-80 min-h-full bg-red-600  text-white">
     {Navbar}
     </ul>
   </div>

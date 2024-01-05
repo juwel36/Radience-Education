@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../Component/Navbar";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import GoogleLoginbtn from "../../Component/GoogleLoginbtn";
 
 const Login = () => {
   const navigate=useNavigate()
   const {Loginguser} =useContext(AuthContext)
+  const [afterloading,setAfterloading]=useState(false)
 
   const {
     register,
@@ -19,7 +20,7 @@ const Login = () => {
 
 
   const onSubmit = (data) =>{
-
+    setAfterloading(true);
 
     Loginguser(data.email,data.password)
   .then(res=>{
@@ -32,11 +33,12 @@ const Login = () => {
         color: '#FF0000',
       },
     });
-
+    setAfterloading(false);
 navigate('/')
   })
   .catch(err=>{
     console.log(err);
+    setAfterloading(false);
     toast.error('please provide valid email or pass', {
       duration: 2000,
       position: 'top-right', 
@@ -87,7 +89,7 @@ navigate('/')
       {errors.email && <span className="text-red-500">This field is required</span>}
     </div>
     <div className="relative h-11 w-full min-w-[200px]">
-      <input
+      <input type="password"
         className="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
         placeholder=" " {...register("password",{ required: true })}/>
       <label
@@ -101,7 +103,11 @@ navigate('/')
   <div className="p-6 pt-0">
 <input  className="block w-full select-none rounded-lg bg-red-600 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="submit" value=" Log In" />
     </div>
-
+    {afterloading && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          )} 
 </form>
 
 

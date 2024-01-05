@@ -1,4 +1,7 @@
+import Footer from "../../Component/Footer";
+import Location from "../../Component/Location";
 import Navbar from "../../Component/Navbar";
+import OurTeam from "../../Component/OurTeam";
 import Testimonial from "../../Component/Testimonial";
 import img2 from '../../assets/about.png'
 
@@ -9,14 +12,14 @@ const AboutUs = () => {
   return (
     <div>
 <Navbar></Navbar>
-<div className="w-full h-40 lg:h-80 bistro-item bg-fixed">
+<div className="w-full h-40 lg:h-80 bistro-item bg-fixed ">
 </div>
-<div className="max-w-6xl mx-auto py-20">
-<div className='flex justify-evenly items-center flex-col md:flex-row lg:flex-row'>
+<div className=" py-20">
+<div className='max-w-6xl mx-auto flex justify-evenly items-center flex-col md:flex-row lg:flex-row'>
       <div className='w-1/2'>
         <div className='flex justify-end lg:mr-14  '>
     
-<img className=' lg:w-96' src={img2} alt="" />
+        <img className=' lg:w-96' src="https://i.ibb.co/7Nfd6W5/Screenshot-2024-01-05-001510-removebg-preview.png" alt="" />
 
         </div>
       </div>
@@ -36,15 +39,22 @@ Welcome to Radiance Education, where excellence meets learning in a harmonious b
 
 
     </div>
-
+<div className="bg-red-100 ">
+<div className="px-2">
 
 <Testimonial></Testimonial>
 
-
-
-
 </div>
-      
+</div>
+<OurTeam></OurTeam>
+
+
+
+
+
+</div >
+
+<Footer></Footer>      
     </div>
   );
 };

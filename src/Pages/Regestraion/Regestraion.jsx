@@ -2,15 +2,17 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../Component/Navbar";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import GoogleLoginbtn from "../../Component/GoogleLoginbtn";
+import useAxoisPublic from "../../Hooks/useAxiosPublic";
 
 
 
 
 const Regestraion = () => {
-
+const axiosPublic=useAxoisPublic()
+const [afterloading,setAfterloading]=useState(false)
   const {createuser,updateprofile} =useContext(AuthContext)
 const navigate=useNavigate()
 
@@ -22,24 +24,62 @@ const navigate=useNavigate()
 
   const photoUrl="https://i.ibb.co/ncgRKSj/download-2.png"
 
-  const onSubmit = async (data)  => {
-
-    const res = await createuser(data.email, data.password);
-      console.log(res);
+  const onSubmit = async (data) => {
+    try {
+      setAfterloading(true);
+      const res = await createuser(data.email, data.password);
   
       await updateprofile(data.name, photoUrl);
-      toast.success('Log out succesfully', {
-        duration: 2000,
-        position: 'top-right', 
-        style: {
-          border: '2px solid #FF0000',
-          padding: '16px',
-          color: '#FF0000',
-        },
-      });
-navigate('/')
-
-  }
+  
+      const userInfo = {
+        email: data.email,
+        name: data.name,
+        photoUrl: photoUrl,
+      };
+  
+      const dbResponse = await axiosPublic.post('/users', userInfo);
+      if (dbResponse.data.insertedId) {
+        console.log('Data added to the database');
+        toast.success('Registration successful', {
+          duration: 2000,
+          position: 'top-right',
+          style: {
+            border: '2px solid #008000',
+            padding: '16px',
+            color: '#008000',
+          },
+        });
+      }
+      setAfterloading(false);
+      navigate('/');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        setAfterloading(false);
+        toast.error('Email is already registered. Please use a different email.', {
+          duration: 5000,
+          position: 'top-right',
+          style: {
+            border: '2px solid #FF0000',
+            padding: '16px',
+            color: '#FF0000',
+          },
+        });
+      } else {
+        console.error('Error during registration:', error);
+        setAfterloading(false);
+        toast.error('An error occurred during registration. Please try again.', {
+          duration: 5000,
+          position: 'top-right',
+          style: {
+            border: '2px solid #FF0000',
+            padding: '16px',
+            color: '#FF0000',
+          },
+        });
+      }
+    }
+  };
+  
 
 
   return (
@@ -98,7 +138,11 @@ navigate('/')
    
    
   </div>
-
+  {afterloading && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+              <span className="loading loading-spinner text-primary"></span>
+            </div>
+          )} 
 </form>
 
 

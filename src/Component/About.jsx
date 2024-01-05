@@ -16,13 +16,13 @@ const About = () => {
 
   return (
 
-<div id='about' className='max-w-6xl mx-auto pt-20 pb-28 '>
+<div id='about' className='max-w-6xl mx-auto pt-10  pb-24 '>
     <div className='flex justify-evenly items-center flex-col md:flex-row lg:flex-row'>
       <div data-aos="fade-up"
      data-aos-anchor-placement="bottom-bottom" className='w-1/2'>
         <div className='flex justify-end lg:mr-14  '>
     
-<img className=' lg:w-96' src={img2} alt="" />
+<img className=' lg:w-96' src="https://i.ibb.co/7Nfd6W5/Screenshot-2024-01-05-001510-removebg-preview.png" alt="" />
 
         </div>
       </div>
